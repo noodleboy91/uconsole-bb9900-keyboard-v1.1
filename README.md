@@ -15,8 +15,9 @@ Download the compiled firmware from [this repository's releases](https://github.
 - **`bb9900-v1.1-zmk.uf2`**: trackpad press is left mouse click.
 - **`bb9900-v1.1-zmk-middle-click.uf2`**: trackpad press is middle mouse click.
 
-Both builds have passed compilation and firmware structure checks; physical
-keyboard testing is still pending. See [V1.1 details](V1.1.md) and
+Both builds have passed compilation and firmware structure checks. **V1.1 hardware
+testing is partially completed:** the user reports the keyboard is working well
+so far; full feature and variant testing is still in progress. See [V1.1 details](V1.1.md) and
 [flashing commands](commands.txt). The original documentation follows below;
 upstream release links refer to V2.1 firmware, not this V1.1 port.
 
@@ -56,8 +57,9 @@ the replacement uConsole keyboard with an optical trackpad in place of the
 trackball.
 
 **The original build is for the V2.1 keyboard.** This port also includes a
-V1.1 build using the vendor's older matrix wiring. The V1.1 port needs testing
-on hardware; see [V1.1 port](V1.1.md) for the correct file and build instructions.
+V1.1 build using the vendor's older matrix wiring. V1.1 hardware testing is
+partially completed, with positive results so far; see [V1.1 port](V1.1.md)
+for the correct file and build instructions.
 
 It carries over the features of the [qmk-uconsole](https://github.com/jhob101/qmk-uconsole)
 firmware for the original keyboard (gamepad mode, hold-Select scrolling, the
@@ -448,8 +450,9 @@ sudo libinput debug-events --show-keycodes
 
 ## Known limitations
 
-- **Only tested on the V2.1 keyboard.** Other versions of the kit may work but
-  are untried.
+- **V1.1 hardware testing is partially completed.** Initial user feedback is
+  positive; full feature and variant coverage has not yet been confirmed.
+  The original upstream firmware was tested on V2.1.
 - **Left Shift after Fn does nothing.** Press Shift before Fn, or use Right
   Shift. This is inherited from the vendor keymap.
 - **Unlocking needs Fn released first.** Holding Fn and tapping Esc twice locks
