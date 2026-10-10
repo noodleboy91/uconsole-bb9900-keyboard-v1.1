@@ -306,38 +306,127 @@ file.
 
 ## Flashing
 
-The keyboard cannot type while in its bootloader, so use SSH or a USB keyboard.
+The built-in keyboard stops typing in bootloader mode, but the uConsole keeps
+running. Connect over SSH **before** entering the bootloader, or use an external
+USB keyboard. Flash one UF2 at a time.
 
-1. **Copy the `.uf2` to the uConsole**, for example with `scp`.
+### 1. Enable SSH on the uConsole
 
-2. **Enter the bootloader.** On this firmware, hold Left Alt and Right Alt and
-   press Start (or the [fallback](#bootloader)). On the vendor's stock
-   firmware, Right Fn + `\`. A USB drive labelled `NRF52BOOT` (or `ADM840BOOT`) appears.
+If SSH is not already enabled, run these on the **uConsole** while its keyboard
+still works:
 
-3. **Mount the drive.**
+```sh
+sudo systemctl enable --now ssh
+hostname -I
+```
 
-   ```sh
-   lsblk -o NAME,LABEL,SIZE        # look for NRF52BOOT or ADM840BOOT, about 32M
-   sudo mount /dev/sda /mnt        # use the name lsblk showed
-   ```
+Both computers should be on the same network. The examples below use
+`matt@clockworkpi`, as on the tested uConsole. Use your own username and the IP
+address printed by `hostname -I` if that hostname does not resolve.
 
-4. **The first time, back up the current firmware.**
+### 2. Copy the firmware from your other computer
 
-   ```sh
-   cp /mnt/CURRENT.UF2 ~/keyboard-backup.uf2
-   ```
+Download your chosen V1.1 UF2 from the [releases page](https://github.com/noodleboy91/uconsole-bb9900-keyboard-v1.1/releases)
+into your other computer's `Downloads` folder. In a terminal on **that computer**,
+run:
 
-5. **Copy the new firmware over.** The keyboard restarts on it by itself.
+```sh
+ssh matt@clockworkpi 'mkdir -p ~/Downloads'
+scp ~/Downloads/bb9900-v1.1-zmk.uf2 matt@clockworkpi:Downloads/
+ssh matt@clockworkpi
+```
 
-   ```sh
-   sudo cp bb9900-v1.1-zmk.uf2 /mnt/ && sync
-   ```
+For middle-click or one-handed firmware, replace the filename in the `scp`
+command with `bb9900-v1.1-zmk-middle-click.uf2` or
+`bb9900-v1.1-zmk-one-handed.uf2`. If the file is already on the uConsole, skip
+the copy and just connect with SSH.
 
-To leave the bootloader without changing anything, or if the keyboard does not
-come back, enter the bootloader again and copy your backup over.
+**Run the remaining shell commands inside this SSH session on the uConsole.**
 
-If the drive reappears a few seconds after copying, that is a stuck unmount,
-not a bad flash: reboot the uConsole and flash again.
+### 3. Enter bootloader mode using the physical keyboard
+
+| Firmware currently installed | Shortcut |
+| --- | --- |
+| Vendor stock V1.1 firmware | Hold **Right Fn**, then press **`\`** (backslash/pipe). |
+| This custom firmware | Hold **Left Alt + Right Alt**, then press **Start**. |
+| Custom firmware fallback | Hold **Left Fn**, then also **Right Fn**, then press **`\`**. The order matters. |
+
+On the custom firmware, unlock with Fn+Esc first if locked. The Alt+Start route
+does not work in gamepad mode; use the Fn fallback or leave gamepad mode first.
+These shortcuts are pressed on the built-in keyboard, not typed over SSH.
+
+### 4. Find and mount the bootloader drive
+
+```sh
+lsblk -o NAME,LABEL,SIZE,FSTYPE,MOUNTPOINTS
+```
+
+Look for a roughly 32 MB FAT drive labelled **NRF52BOOT** (or **ADM840BOOT**).
+It may be unmounted, so it will not appear in `df`. On the tested V1.1 it was
+`/dev/sda`, with no partition number:
+
+```text
+sda  NRF52BOOT  32.1M  vfat
+```
+
+If your output matches, mount it with:
+
+```sh
+sudo mkdir -p /mnt/keyboard
+sudo mount /dev/sda /mnt/keyboard
+ls /mnt/keyboard
+```
+
+Use the device shown by your own `lsblk` output if it differs. If it is already
+mounted, use that mount point in the commands below instead of mounting it again.
+
+### 5. Back up and flash
+
+Save the current firmware under a dated name:
+
+```sh
+cp /mnt/keyboard/CURRENT.UF2 "$HOME/keyboard-backup-$(date +%Y%m%d-%H%M%S).uf2"
+```
+
+Then copy **your chosen firmware** to the bootloader drive. For left click:
+
+```sh
+sudo cp ~/Downloads/bb9900-v1.1-zmk.uf2 /mnt/keyboard/
+sync
+```
+
+Or, **instead**, for middle click:
+
+```sh
+sudo cp ~/Downloads/bb9900-v1.1-zmk-middle-click.uf2 /mnt/keyboard/
+sync
+```
+
+Or, **instead**, for the one-handed layout:
+
+```sh
+sudo cp ~/Downloads/bb9900-v1.1-zmk-one-handed.uf2 /mnt/keyboard/
+sync
+```
+
+The drive should disappear and the keyboard should restart automatically.
+Your SSH session should remain connected. Test typing, Enter, the bottom-row
+modifiers, trackpad clicks and scrolling after it restarts.
+
+### Recovery
+
+Keep your backup and known-working stock `KB1V1-1V31.uf2`. To restore stock,
+enter the bootloader again, identify and mount its drive as above, then run
+this over SSH if the stock file is in Downloads:
+
+```sh
+sudo cp ~/Downloads/KB1V1-1V31.uf2 /mnt/keyboard/
+sync
+```
+
+You can also restore a saved `CURRENT.UF2` backup by copying that file to the
+drive. If the firmware cannot process keyboard shortcuts, entering the
+bootloader may require the board's hardware reset procedure.
 
 ## Desktop setup
 
