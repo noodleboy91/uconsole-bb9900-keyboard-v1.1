@@ -324,9 +324,8 @@ sudo systemctl enable --now ssh
 hostname -I
 ```
 
-Both computers should be on the same network. The examples below use
-`matt@clockworkpi`, as on the tested uConsole. Use your own username and the IP
-address printed by `hostname -I` if that hostname does not resolve.
+Both computers should be on the same network. Replace `<user>@<host>` in the
+examples below with your actual username and the uConsole's IP address or hostname.
 
 ### 2. Copy the firmware from your other computer
 
@@ -335,9 +334,9 @@ into your other computer's `Downloads` folder. In a terminal on **that computer*
 run:
 
 ```sh
-ssh matt@clockworkpi 'mkdir -p ~/Downloads'
-scp ~/Downloads/bb9900-v1.1-zmk.uf2 matt@clockworkpi:Downloads/
-ssh matt@clockworkpi
+ssh <user>@<host> 'mkdir -p ~/Downloads'
+scp ~/Downloads/bb9900-v1.1-zmk.uf2 <user>@<host>:Downloads/
+ssh <user>@<host>
 ```
 
 For middle-click or one-handed firmware, replace the filename in the `scp`
