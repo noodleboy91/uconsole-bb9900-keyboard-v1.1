@@ -29,6 +29,9 @@ sync
 # sync
 
 # The keyboard should restart automatically and the bootloader drive disappear.
+# If previously using the initial v1.5.0 build with lift detection enabled,
+# save your work and fully shut down, then power back on to reset the sensor:
+# sudo poweroff
 # On the new firmware, enter bootloader with Left Alt + Right Alt + Start.
 # Fallback: hold Left Fn, then Right Fn, then press backslash (\).
 

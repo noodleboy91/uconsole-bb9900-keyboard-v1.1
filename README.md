@@ -25,7 +25,10 @@ v1.5.0 features and one-handed variant need hardware testing. See
 ### New in this update
 
 - Scrolling follows finger speed, with overall scroll speed set to 60%.
-- Thumb-lift detection reduces pointer jumps; pointer speed is now 120%.
+- Pointer speed is now 120%. The new sensor lift detection is **disabled on
+  V1.1** after a report of missed movement, pointer jumps and stopping with
+  the initial v1.5.0 build. Rolling back restored operation; this revised
+  configuration still needs hardware verification.
 - The trackpad light indicates scroll mode.
 - B tap is middle click in the standard firmware, or left click in the
   middle-click-trackpad firmware. Holding B still enables D-pad mouse movement.
@@ -219,7 +222,8 @@ Added here:
   [keyd](https://github.com/rvaiya/keyd) config.
 - Y or B plus the D-pad as a mouse.
 - The keyboard lock.
-- No pointer jump when you lift your thumb, and pointer speed up 20%.
+- Pointer overflow fix and pointer speed up 20%. Upstream sensor lift detection
+  is disabled in this V1.1 port while investigating a trackpad regression.
 - Gentler scrolling that follows your finger speed: slow movement scrolls
   slowly.
 - The trackpad light shows scroll mode.
@@ -413,6 +417,11 @@ The drive should disappear and the keyboard should restart automatically.
 Your SSH session should remain connected. Test typing, Enter, the bottom-row
 modifiers, trackpad clicks and scrolling after it restarts.
 
+**If you flashed the initial v1.5.0 build with lift detection enabled**, save
+your work, run `sudo poweroff`, wait for shutdown, then turn the uConsole back
+on. Disabling the option stops programming the sensor but does not clear a
+previous setting until the keyboard loses power.
+
 ### Recovery
 
 Keep your backup and known-working stock `KB1V1-1V31.uf2`. To restore stock,
@@ -453,7 +462,7 @@ Common changes:
 | Y, X, B and A | `Y_KEY`, `X_KEY`, `B_KEY` and `A_KEY` at the top of the keymap |
 | Pointer speed | `CONFIG_TRACKPAD_SPEEDMULTIPLIER_HORIZONTAL` and `_VERTICAL`, in percent |
 | Scroll speed | `CONFIG_TRACKPAD_SCROLL_SPEED`, in percent |
-| Lift detection | `CONFIG_INPUT_A320_OFN_ENGINE`: `0xA0` on, `0x00` off |
+| Lift detection | `CONFIG_INPUT_A320_OFN_ENGINE=0x00` on V1.1 (sensor programming disabled); upstream uses `0xA0`. Power-cycle after changing from `0xA0`. |
 | Trackpad light | `CONFIG_ZMK_TRACKPAD_SCROLL_LIGHT`: `n` leaves it alone |
 | Backlight auto-off delay | `CONFIG_ZMK_IDLE_TIMEOUT`, in milliseconds |
 | One-shot timeout | `release-after-ms` on `osm` and `osl` in the keymap |
