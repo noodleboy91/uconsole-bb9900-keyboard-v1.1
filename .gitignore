@@ -6,3 +6,4 @@ tools/
 bootloader/
 build*/
 testing/
+commands.txt
