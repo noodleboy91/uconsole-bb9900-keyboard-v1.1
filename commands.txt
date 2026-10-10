@@ -23,6 +23,11 @@ sync
 # sudo cp ~/Downloads/bb9900-v1.1-zmk.uf2 /mnt/keyboard/
 # sync
 
+# OR ONE-HANDED: trackpad left click; Y middle click, B right click,
+# X scroll toggle, A F11. Use this INSTEAD of either copy command above.
+# sudo cp ~/Downloads/bb9900-v1.1-zmk-one-handed.uf2 /mnt/keyboard/
+# sync
+
 # The keyboard should restart automatically and the bootloader drive disappear.
 # On the new firmware, enter bootloader with Left Alt + Right Alt + Start.
 # Fallback: hold Left Fn, then Right Fn, then press backslash (\).

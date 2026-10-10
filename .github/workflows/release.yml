@@ -42,7 +42,7 @@ jobs:
             echo "::error::VERSION must look like 1.2.3, got '$version'"
             exit 1
           fi
-          tag="v$version"
+          tag="v$version-v1.1"
           echo "tag=$tag" >> "$GITHUB_OUTPUT"
           if gh release view "$tag" > /dev/null 2>&1; then
             echo "exists=true" >> "$GITHUB_OUTPUT"
@@ -89,6 +89,7 @@ jobs:
         run: |
           ls -l firmware
           gh release create "$TAG" firmware/*.uf2 \
+            --prerelease \
             --target "$GITHUB_SHA" \
             --title "$TAG" \
             --notes-file .github/release-notes.md

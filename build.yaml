@@ -1,27 +1,15 @@
-# This file generates the GitHub Actions matrix
-# For simple board + shield combinations, add them
-# to the top level board and shield arrays, for more
-# control, add individual board + shield combinations to
-# the `include` property, e.g:
-#
-# board: [ "nice_nano_v2" ]
-# shield: [ "corne_left", "corne_right" ]
-# include:
-#   - board: bdn9_rev2
-#   - board: nice_nano_v2
-#     shield: reviung41
+# GitHub Actions build matrix. Every artifact here targets V1.1 hardware.
 ---
 include:
-  # Standard firmware: pressing the trackpad is a left click.
-  - board: bb9900
-  # Same firmware, but pressing the trackpad is a middle click.
-  - board: bb9900
-    cmake-args: -DDTS_EXTRA_CPPFLAGS=-DTRACKPAD_PRESS=MCLK
-    artifact-name: bb9900-zmk-middle-click
-  # V1.1 hardware has different Enter and right-hand bottom-row wiring.
+  # Trackpad left click, B tap middle click.
   - board: bb9900
     cmake-args: -DDTS_EXTRA_CPPFLAGS=-DBB9900_V1_1
     artifact-name: bb9900-v1.1-zmk
+  # Trackpad middle click, B tap left click.
   - board: bb9900
-    cmake-args: -DDTS_EXTRA_CPPFLAGS="-DBB9900_V1_1;-DTRACKPAD_PRESS=MCLK"
+    cmake-args: -DDTS_EXTRA_CPPFLAGS="-DBB9900_V1_1;-DMIDDLE_CLICK_TRACKPAD"
     artifact-name: bb9900-v1.1-zmk-middle-click
+  # One-handed layout: mouse buttons and a scroll switch on the face buttons.
+  - board: bb9900
+    cmake-args: -DDTS_EXTRA_CPPFLAGS="-DBB9900_V1_1;-DONE_HANDED"
+    artifact-name: bb9900-v1.1-zmk-one-handed
