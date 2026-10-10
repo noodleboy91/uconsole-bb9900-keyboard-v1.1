@@ -12,19 +12,21 @@ sudo mount /dev/sda /mnt/keyboard
 # Back up the current firmware without overwriting an existing backup:
 cp -n /mnt/keyboard/CURRENT.UF2 ~/keyboard-backup.uf2
 
-# CHOOSE ONE firmware below. Do not run both copy commands.
+# Download firmware from GitHub release (choose ONE):
+mkdir -p ~/Downloads
 
-# MIDDLE CLICK: pressing the trackpad sends middle mouse click.
-sudo cp ~/Downloads/bb9900-v1.1-zmk-middle-click.uf2 /mnt/keyboard/
+# LEFT CLICK (default - trackpad sends left mouse click):
+curl -fL -o ~/Downloads/bb9900-v1.1-zmk.uf2 'https://github.com/noodleboy91/uconsole-bb9900-keyboard-v1.1/releases/download/v1.5.0-v1.1/bb9900-v1.1-zmk.uf2'
+sudo cp ~/Downloads/bb9900-v1.1-zmk.uf2 /mnt/keyboard/
 sync
 
-# OR LEFT CLICK: pressing the trackpad sends left mouse click.
-# Uncomment the following copy command to use it instead of the one above.
-# sudo cp ~/Downloads/bb9900-v1.1-zmk.uf2 /mnt/keyboard/
+# OR MIDDLE CLICK: uncomment below instead of LEFT CLICK above
+# curl -fL -o ~/Downloads/bb9900-v1.1-zmk-middle-click.uf2 'https://github.com/noodleboy91/uconsole-bb9900-keyboard-v1.1/releases/download/v1.5.0-v1.1/bb9900-v1.1-zmk-middle-click.uf2'
+# sudo cp ~/Downloads/bb9900-v1.1-zmk-middle-click.uf2 /mnt/keyboard/
 # sync
 
-# OR ONE-HANDED: trackpad left click; Y middle click, B right click,
-# X scroll toggle, A F11. Use this INSTEAD of either copy command above.
+# OR ONE-HANDED: uncomment below instead of LEFT CLICK above
+# curl -fL -o ~/Downloads/bb9900-v1.1-zmk-one-handed.uf2 'https://github.com/noodleboy91/uconsole-bb9900-keyboard-v1.1/releases/download/v1.5.0-v1.1/bb9900-v1.1-zmk-one-handed.uf2'
 # sudo cp ~/Downloads/bb9900-v1.1-zmk-one-handed.uf2 /mnt/keyboard/
 # sync
 
