@@ -5,6 +5,11 @@
 This repository ports [jhob101's firmware](https://github.com/jhob101/uconsole-bb9900-keyboard)
 to the V1.1 keyboard's matrix wiring while preserving its features and logical keymap.
 
+**Original custom firmware creator:** [jhob101](https://github.com/jhob101).
+See the [original firmware repository](https://github.com/jhob101/uconsole-bb9900-keyboard)
+for the features this port builds on. Earlier contributors and the vendor are
+credited in [Credits and licence](#credits-and-licence).
+
 Download the compiled firmware from [this repository's releases](https://github.com/noodleboy91/uconsole-bb9900-keyboard-v1.1/releases):
 
 - **`bb9900-v1.1-zmk.uf2`**: trackpad press is left mouse click.
@@ -14,6 +19,35 @@ Both builds have passed compilation and firmware structure checks; physical
 keyboard testing is still pending. See [V1.1 details](V1.1.md) and
 [flashing commands](commands.txt). The original documentation follows below;
 upstream release links refer to V2.1 firmware, not this V1.1 port.
+
+## Main additions
+
+These features from jhob101's firmware are preserved in this V1.1 port:
+
+- **Hold Select and move the trackpad to scroll.** Hold, not a toggle.
+- **Gamepad mode on Fn+G.** The keyboard shows up as a real USB joystick,
+  with the D-pad on the axes and A/B/X/Y/Select/Start as buttons.
+- **Trackpad press as a mouse click.** There are two pre-built firmwares,
+  for left click or middle click.
+- **Start is Super**, and holding **Y or B** turns the D-pad into a mouse.
+- **Keyboard lock on Fn+Esc.** It ignores the keys and trackpad and turns
+  the backlight off, which is handy for carrying it around.
+- **A bootloader shortcut that's hard to hit by accident.** Hold Left Alt
+  and Right Alt, then press Start. This replaces the easier-to-trigger stock
+  shortcut. The fallback is to hold Left Fn, then Right Fn, then press `\`.
+
+## Other changes / stuff to be aware of
+
+A few choices inherited from the upstream author's setup:
+
+- **Bluetooth is switched off**; the keyboard connects over USB.
+- **Shift/Ctrl/Alt are one-shot modifiers**: tap once and the modifier applies
+  to the next key. Holding a modifier works normally. In gamepad mode, these
+  are plain modifiers.
+- **The A button is a Ctrl+Shift shortcut key for kitty terminal** in keyboard
+  mode; in gamepad mode, it is a joystick button.
+
+All of these can be changed if you fork the repository and build your own firmware.
 
 ---
 
