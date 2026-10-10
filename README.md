@@ -492,6 +492,11 @@ under `#ifdef ONE_HANDED`, a worked example to copy for a layout of your own.
 - **V1.1 hardware testing is partially completed.** Initial user feedback is
   positive for the earlier release; the v1.5.0 update needs hardware testing.
   The original upstream firmware was tested on V2.1.
+- **DO NOT ENABLE SENSOR LIFT DETECTION ON V1.1.** Setting `CONFIG_INPUT_A320_OFN_ENGINE=0xA0`
+  is incompatible with V1.1 hardware and causes trackpad malfunctions including
+  missed movements, pointer jumps, and unresponsive trackpad. This has been tested
+  and confirmed broken. The setting must remain at `0x00` for all V1.1 builds.
+  This is a permanent hardware incompatibility, not a configuration issue.
 - **Left Shift after Fn does nothing.** Press Shift before Fn, or use Right
   Shift.
 - **Unlocking needs Fn released first.**
