@@ -1,11 +1,29 @@
 # uConsole trackpad keyboard firmware
 
+## V1.1 hardware port
+
+This repository ports [jhob101's firmware](https://github.com/jhob101/uconsole-bb9900-keyboard)
+to the V1.1 keyboard's matrix wiring while preserving its features and logical keymap.
+
+Download the compiled firmware from [this repository's releases](https://github.com/noodleboy91/uconsole-bb9900-keyboard-v1.1/releases):
+
+- **`bb9900-v1.1-zmk.uf2`**: trackpad press is left mouse click.
+- **`bb9900-v1.1-zmk-middle-click.uf2`**: trackpad press is middle mouse click.
+
+Both builds have passed compilation and firmware structure checks; physical
+keyboard testing is still pending. See [V1.1 details](V1.1.md) and
+[flashing commands](commands.txt). The original documentation follows below;
+upstream release links refer to V2.1 firmware, not this V1.1 port.
+
+---
+
 Custom firmware for the [hack2you uConsole trackpad keyboard kit](https://hack2you.tech/products/uconsole-trackpad-keyboard):
 the replacement uConsole keyboard with an optical trackpad in place of the
 trackball.
 
-**It is for the V2.1 keyboard.** It may work on other versions of the
-keyboard, but it has only been tested on V2.1.
+**The original build is for the V2.1 keyboard.** This port also includes a
+V1.1 build using the vendor's older matrix wiring. The V1.1 port needs testing
+on hardware; see [V1.1 port](V1.1.md) for the correct file and build instructions.
 
 It carries over the features of the [qmk-uconsole](https://github.com/jhob101/qmk-uconsole)
 firmware for the original keyboard (gamepad mode, hold-Select scrolling, the
@@ -204,18 +222,20 @@ has ready-made firmware attached. Download the file you want and go straight to
 
 ### Which file
 
-The two files differ only in what pressing the trackpad does:
+For V1.1, use this port's build artifacts described in [V1.1.md](V1.1.md);
+the upstream releases linked above are V2.1 builds.
 
-| File | Pressing the trackpad |
-| --- | --- |
-| `bb9900-zmk.uf2` | Left click |
-| `bb9900-zmk-middle-click.uf2` | Middle click |
+| File | Hardware | Pressing the trackpad |
+| --- | --- | --- |
+| `bb9900-zmk.uf2` | V2.1 | Left click |
+| `bb9900-zmk-middle-click.uf2` | V2.1 | Middle click |
+| `bb9900-v1.1-zmk.uf2` | V1.1 | Left click |
+| `bb9900-v1.1-zmk-middle-click.uf2` | V1.1 | Middle click |
 
-The L and R buttons are left and right click in both.
+The L and R buttons are left and right click in all variants.
 
-Build it yourself if you want to change the keymap or settings. The output of
-either route below is one file, `bb9900-zmk.uf2` (GitHub) or `zmk.uf2` (local
-build).
+Build it yourself if you want to change the keymap or settings. GitHub builds
+all four files; each local build produces `zmk.uf2` for the selected variant.
 
 ### On GitHub (no tools to install)
 
@@ -223,7 +243,7 @@ build).
 2. Push a commit, or open the **Actions** tab, pick the workflow and choose
    **Run workflow**.
 3. Open the finished run and download the `firmware` artifact. It is a zip
-   containing both files from the [table above](#which-file).
+   containing all four files from the [table above](#which-file).
 
 A build takes about four minutes.
 
@@ -279,7 +299,7 @@ Change the number in the [`VERSION`](VERSION) file on `main`, for example from
 firmware and publishes a GitHub Release named `v1.0.1` with the `.uf2`
 attached.
 
-The release is built against whatever `jhob101/zmk` `main` is at that moment.
+The release is built against the `jhob101/zmk` revision pinned in `config/west.yml`.
 
 The text on the release page comes from
 [`.github/release-notes.md`](.github/release-notes.md). Editing that file on

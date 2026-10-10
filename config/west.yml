@@ -11,7 +11,8 @@ manifest:
   projects:
     - name: zmk
       remote: jhob101
-      revision: main
+      # Pin the source used to build and validate the V1.1 port.
+      revision: f2b94aaf04ea15058b9c5497ff46fae54d508aca
       import: app/west.yml
   self:
     path: config

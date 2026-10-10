@@ -1,0 +1,33 @@
+# Run these on the uConsole over SSH or using an external keyboard.
+# On stock firmware: hold Right Fn and press backslash (\) to enter bootloader.
+
+# Confirm /dev/sda is the keyboard bootloader drive before mounting.
+# The user's V1.1 drive was labelled NRF52BOOT; device names can change.
+lsblk -o NAME,LABEL,SIZE,FSTYPE,MOUNTPOINTS
+
+# Mount the bootloader drive (skip mount if already mounted here):
+sudo mkdir -p /mnt/keyboard
+sudo mount /dev/sda /mnt/keyboard
+
+# Back up the current firmware without overwriting an existing backup:
+cp -n /mnt/keyboard/CURRENT.UF2 ~/keyboard-backup.uf2
+
+# CHOOSE ONE firmware below. Do not run both copy commands.
+
+# MIDDLE CLICK: pressing the trackpad sends middle mouse click.
+sudo cp ~/Downloads/bb9900-v1.1-zmk-middle-click.uf2 /mnt/keyboard/
+sync
+
+# OR LEFT CLICK: pressing the trackpad sends left mouse click.
+# Uncomment the following copy command to use it instead of the one above.
+# sudo cp ~/Downloads/bb9900-v1.1-zmk.uf2 /mnt/keyboard/
+# sync
+
+# The keyboard should restart automatically and the bootloader drive disappear.
+# On the new firmware, enter bootloader with Left Alt + Right Alt + Start.
+# Fallback: hold Left Fn, then Right Fn, then press backslash (\).
+
+# Restore your saved stock firmware if needed: enter bootloader, mount as above,
+# then copy your backup or your known-working vendor UF2 onto the drive.
+# sudo cp ~/keyboard-backup.uf2 /mnt/keyboard/
+# sync
