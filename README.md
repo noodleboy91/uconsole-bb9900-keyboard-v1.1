@@ -17,18 +17,22 @@ Download the compiled firmware from [this repository's releases](https://github.
 - **`bb9900-v1.1-zmk-one-handed.uf2`**: trackpad left click; Y middle click,
   B right click, X scroll toggle, A F11.
 
-This version follows **upstream v1.5.0**. **V1.1 hardware testing is partially
-completed for the earlier release**, with positive user feedback. The new
-v1.5.0 features and one-handed variant need hardware testing. See
-[V1.1 details](V1.1.md) and [flashing commands](commands.txt).
+This version follows **upstream v1.5.0** and is published as the
+[`v1.5-experimental` release](https://github.com/noodleboy91/uconsole-bb9900-keyboard-v1.1/releases/tag/v1.5-experimental).
+Sensor lift detection is **disabled for V1.1** — see below. The known-good
+[`v1.1-hardware-port.1`](https://github.com/noodleboy91/uconsole-bb9900-keyboard-v1.1/releases/tag/v1.1-hardware-port.1)
+release stays on **Latest** for recovery. The standard v1.5 build is
+hardware-tested and working; the middle-click and one-handed variants build but
+are not yet hardware-confirmed. See [V1.1 details](V1.1.md) and the
+[flashing section](#flashing).
 
 ### New in this update
 
 - Scrolling follows finger speed, with overall scroll speed set to 60%.
-- Pointer speed is now 120%. The new sensor lift detection is **disabled on
-  V1.1** after a report of missed movement, pointer jumps and stopping with
-  the initial v1.5.0 build. Rolling back restored operation; this revised
-  configuration still needs hardware verification.
+- Pointer speed is now 120%. Sensor lift detection is **disabled on V1.1**:
+  testing confirmed it is incompatible with this hardware (missed movement,
+  pointer jumps, unresponsive trackpad), so it stays off
+  (`CONFIG_INPUT_A320_OFN_ENGINE=0x00`). Do not enable it on V1.1.
 - The trackpad light indicates scroll mode.
 - B tap is middle click in the standard firmware, or left click in the
   middle-click-trackpad firmware. Holding B still enables D-pad mouse movement.
@@ -358,6 +362,12 @@ On the custom firmware, unlock with Fn+Esc first if locked. The Alt+Start route
 does not work in gamepad mode; use the Fn fallback or leave gamepad mode first.
 These shortcuts are pressed on the built-in keyboard, not typed over SSH.
 
+If the firmware hangs and none of the shortcuts respond, the bootloader is still
+reachable with the **physical reset button**: a small, unlabeled button on the
+**underside of the keyboard PCB, next to the crystal**. It may have kapton tape
+over it — peel the tape back or press through it. It works even when the
+keyboard is unresponsive, and is the reliable way back into bootloader mode.
+
 ### 4. Find and mount the bootloader drive
 
 ```sh
@@ -433,8 +443,11 @@ sync
 ```
 
 You can also restore a saved `CURRENT.UF2` backup by copying that file to the
-drive. If the firmware cannot process keyboard shortcuts, entering the
-bootloader may require the board's hardware reset procedure.
+drive. If the firmware cannot process keyboard shortcuts — for example after
+flashing a build that hangs — enter the bootloader with the **physical reset
+button**: a small, unlabeled button on the **underside of the keyboard PCB,
+next to the crystal**, possibly under kapton tape (peel the tape back or press
+through it). This is the reliable recovery path for a bricked keyboard.
 
 ## Desktop setup
 
