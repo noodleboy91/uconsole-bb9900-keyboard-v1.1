@@ -367,6 +367,10 @@ reachable with the **physical reset button**: a small, unlabeled button on the
 **underside of the keyboard PCB, next to the crystal**. It may have kapton tape
 over it — peel the tape back or press through it. It works even when the
 keyboard is unresponsive, and is the reliable way back into bootloader mode.
+When flashing this way, connect the keyboard to another PC using the
+**USB-to-POGO adapter that came with the board**: the PC that the bootloader
+drive pops up on is the one you copy the `.uf2` file to (see step 4 if the
+drive appears on the uConsole itself instead).
 
 ### 4. Find and mount the bootloader drive
 
@@ -447,7 +451,10 @@ drive. If the firmware cannot process keyboard shortcuts — for example after
 flashing a build that hangs — enter the bootloader with the **physical reset
 button**: a small, unlabeled button on the **underside of the keyboard PCB,
 next to the crystal**, possibly under kapton tape (peel the tape back or press
-through it). This is the reliable recovery path for a bricked keyboard.
+through it). This is the reliable recovery path for a bricked keyboard. For the
+physical route, connect the keyboard to another PC with the **USB-to-POGO
+adapter that came with the board** and copy the `.uf2` file onto the drive that
+pops up when bootloader mode starts.
 
 ## Desktop setup
 
