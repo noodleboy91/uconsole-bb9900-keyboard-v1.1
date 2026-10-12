@@ -17,8 +17,8 @@ Download the compiled firmware from [this repository's releases](https://github.
 - **`bb9900-v1.1-zmk-one-handed.uf2`**: trackpad left click; Y middle click,
   B right click, X scroll toggle, A F11.
 
-This version follows **upstream v1.5.0** and is published as the
-[`v1.5-experimental` release](https://github.com/noodleboy91/uconsole-bb9900-keyboard-v1.1/releases/tag/v1.5-experimental).
+This version follows **upstream v1.5.2** and is published as a
+[prerelease](https://github.com/noodleboy91/uconsole-bb9900-keyboard-v1.1/releases).
 Sensor lift detection is **disabled for V1.1** — see below. The known-good
 [`v1.1-hardware-port.1`](https://github.com/noodleboy91/uconsole-bb9900-keyboard-v1.1/releases/tag/v1.1-hardware-port.1)
 release stays on **Latest** for recovery. The standard v1.5 build is
@@ -28,7 +28,9 @@ are not yet hardware-confirmed. See [V1.1 details](V1.1.md) and the
 
 ### New in this update
 
-- Scrolling follows finger speed, with overall scroll speed set to 60%.
+- Scrolling follows finger speed, with overall scroll speed set to 60%, and
+  horizontal scrolling now matches the direction of your finger (upstream 1.5.2
+  fix).
 - Pointer speed is now 120%. Sensor lift detection is **disabled on V1.1**:
   testing confirmed it is incompatible with this hardware (missed movement,
   pointer jumps, unresponsive trackpad), so it stays off
@@ -509,8 +511,10 @@ under `#ifdef ONE_HANDED`, a worked example to copy for a layout of your own.
 ## Known limitations
 
 - **V1.1 hardware testing is partially completed.** Initial user feedback is
-  positive for the earlier release; the v1.5.0 update needs hardware testing.
-  The original upstream firmware was tested on V2.1.
+  positive for the earlier release; the v1.5.2 update works on the standard
+  variant (mouse tracks well), while the middle-click and one-handed variants
+  are not yet hardware-confirmed. The original upstream firmware was tested on
+  V2.1.
 - **DO NOT ENABLE SENSOR LIFT DETECTION ON V1.1.** Setting `CONFIG_INPUT_A320_OFN_ENGINE=0xA0`
   is incompatible with V1.1 hardware and causes trackpad malfunctions including
   missed movements, pointer jumps, and unresponsive trackpad. This has been tested

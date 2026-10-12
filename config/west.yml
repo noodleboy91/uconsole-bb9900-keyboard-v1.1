@@ -12,7 +12,8 @@ manifest:
     - name: zmk
       remote: jhob101
       # Pin the source used to build and validate the V1.1 port.
-      revision: c783b9e55a197392cc107a77a556893d28745688
+      # e88b786 = upstream 1.5.2: trackpad horizontal scroll direction fix.
+      revision: e88b78600df6de5c644ea73e5b972b923fd3f539
       import: app/west.yml
   self:
     path: config

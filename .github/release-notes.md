@@ -1,4 +1,4 @@
-# Upstream v1.5.0 features for V1.1 hardware
+# Upstream v1.5.2 features for V1.1 hardware
 
 This port follows [jhob101's original firmware](https://github.com/jhob101/uconsole-bb9900-keyboard)
 while retaining the V1.1 key matrix verified against the stock firmware.
@@ -18,7 +18,10 @@ retain the separate L/R mouse buttons, hold-Select scrolling and Fn+G gamepad.
 ## New since the first V1.1 port
 
 - Scrolling follows finger speed, including small/slow movements, at 60% speed.
-- Pointer speed is 120%. Sensor lift detection is disabled for V1.1.
+  **Horizontal scrolling now goes the right way** (upstream 1.5.2 fix).
+- Pointer speed is 120%. Sensor lift detection is disabled for V1.1 — it was
+  confirmed incompatible with this hardware, and upstream also removed it in
+  release 1.5.1.
 - The trackpad light indicates scrolling mode.
 - B tap is now a mouse click, paired with the chosen trackpad-click variant.
 - Optional scroll-toggle behavior and a ready-built one-handed layout.
@@ -28,20 +31,22 @@ retain the separate L/R mouse buttons, hold-Select scrolling and Fn+G gamepad.
 
 All three variants compiled with Zephyr SDK 0.16.8. UF2 headers, flash bounds,
 reset vectors, V1.1 matrix, feature settings and all variant key bindings were
-checked. The keymap matches upstream v1.5.0; settings differ only in disabling
-sensor lift-detection programming (`CONFIG_INPUT_A320_OFN_ENGINE=0x00`).
-The ZMK source is pinned.
+checked. The keymap matches upstream; settings differ only in disabling sensor
+lift-detection programming (`CONFIG_INPUT_A320_OFN_ENGINE=0x00`). The ZMK source
+is pinned to the upstream 1.5.2 fork revision (horizontal scroll fix).
 
-Earlier V1.1 hardware testing was positive. The initial v1.5.0 build produced
-missed movement, pointer jumps and stopping; rollback and power-cycling restored
-operation. Lift detection is the leading suspect. **This revised build needs
-hardware testing**, so it remains a prerelease.
+The standard variant is hardware-tested and works (mouse tracks well, bootloader
+shortcut works). The middle-click and one-handed variants build cleanly but are
+not yet hardware-confirmed. This remains a **prerelease**; the known-good
+`v1.1-hardware-port.1` release stays on **Latest** for recovery.
 
 If upgrading from the initial v1.5.0 build, **fully shut down and power back on
 after flashing** to clear the sensor's previous volatile setting.
 
-Use Left Alt + Right Alt + Start to enter the custom firmware's bootloader,
-then copy one UF2 to the NRF52BOOT drive. Keep your current working firmware
-as a backup. See [commands.txt](https://github.com/noodleboy91/uconsole-bb9900-keyboard-v1.1/blob/main/commands.txt)
-and [V1.1.md](https://github.com/noodleboy91/uconsole-bb9900-keyboard-v1.1/blob/main/V1.1.md)
+Enter bootloader with Left Alt + Right Alt + Start, or with the physical reset
+button on the underside of the PCB next to the crystal (it may have kapton tape
+over it; connect the keyboard to another PC with the USB-to-POGO adapter that
+came with the board), then copy one UF2 to the NRF52BOOT drive that appears.
+Keep your current working firmware as a backup. See
+[V1.1.md](https://github.com/noodleboy91/uconsole-bb9900-keyboard-v1.1/blob/main/V1.1.md)
 for flashing instructions and SHA-256 checksums.
