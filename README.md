@@ -17,16 +17,15 @@ Download the compiled firmware from [this repository's releases](https://github.
 - **`bb9900-v1.1-zmk-one-handed.uf2`**: trackpad left click; Y middle click,
   B right click, X scroll toggle, A F11.
 
-This version follows **upstream v1.5.2** and is published as a
-[prerelease](https://github.com/noodleboy91/uconsole-bb9900-keyboard-v1.1/releases).
-Pre-release downloads carry a `_PreR_<version>-v1.1` suffix (for example
-`bb9900-v1.1-zmk_PreR_1.5.2-v1.1.uf2`); the
+This version follows **upstream v1.5.2** and is the current release on
+[releases](https://github.com/noodleboy91/uconsole-bb9900-keyboard-v1.1/releases)
+(**Latest**). Pre-release builds append a `_PreR_<version>-v1.1` suffix to these
+names; this release uses the plain names. The earlier
 [`v1.1-hardware-port.1`](https://github.com/noodleboy91/uconsole-bb9900-keyboard-v1.1/releases/tag/v1.1-hardware-port.1)
-release uses the plain names and stays on **Latest** for recovery. Sensor lift
-detection is **disabled for V1.1** — see below. The standard v1.5 build is
-hardware-tested and working; the middle-click and one-handed variants build but
-are not yet hardware-confirmed. See [V1.1 details](V1.1.md) and the
-[flashing section](#flashing).
+release is kept as a recovery build. Sensor lift detection is **disabled for
+V1.1** — see below. The standard and middle-click builds are hardware-tested and
+working; the one-handed variant builds but is not yet hardware-confirmed. See
+[V1.1 details](V1.1.md) and the [flashing section](#flashing).
 
 ### New in this update
 
@@ -514,11 +513,11 @@ under `#ifdef ONE_HANDED`, a worked example to copy for a layout of your own.
 
 ## Known limitations
 
-- **V1.1 hardware testing is partially completed.** Initial user feedback is
-  positive for the earlier release; the v1.5.2 update works on the standard
-  variant (mouse tracks well), while the middle-click and one-handed variants
-  are not yet hardware-confirmed. The original upstream firmware was tested on
-  V2.1.
+- **V1.1 hardware testing is partially completed.** The standard and
+  middle-click variants of the v1.5.2 release are hardware-tested and work as
+  expected (tracking, horizontal and vertical scrolling, clicks, and the Y/B
+  D-pad mouse); the one-handed variant is not yet hardware-confirmed. The
+  original upstream firmware was tested on V2.1.
 - **DO NOT ENABLE SENSOR LIFT DETECTION ON V1.1.** Setting `CONFIG_INPUT_A320_OFN_ENGINE=0xA0`
   is incompatible with V1.1 hardware and causes trackpad malfunctions including
   missed movements, pointer jumps, and unresponsive trackpad. This has been tested
