@@ -5,11 +5,14 @@ while retaining the V1.1 key matrix verified against the stock firmware.
 
 ## Choose one file
 
+Pre-release asset names end with `_PreR_<version>-v1.1` (for example
+`bb9900-v1.1-zmk_PreR_1.5.2-v1.1.uf2`), so a downloaded file is self-identifying.
+
 | File | Trackpad press | B in keyboard mode |
 | --- | --- | --- |
-| `bb9900-v1.1-zmk.uf2` | Left click | Tap for middle click; hold for D-pad mouse |
-| `bb9900-v1.1-zmk-middle-click.uf2` | Middle click | Tap for left click; hold for D-pad mouse |
-| `bb9900-v1.1-zmk-one-handed.uf2` | Left click | Right click, hold to drag |
+| `bb9900-v1.1-zmk_PreR_<version>-v1.1.uf2` | Left click | Tap for middle click; hold for D-pad mouse |
+| `bb9900-v1.1-zmk-middle-click_PreR_<version>-v1.1.uf2` | Middle click | Tap for left click; hold for D-pad mouse |
+| `bb9900-v1.1-zmk-one-handed_PreR_<version>-v1.1.uf2` | Left click | Right click, hold to drag |
 
 One-handed also uses Y for middle click, X to toggle scrolling, and A for F11.
 It replaces the D-pad mouse and kitty shortcut in keyboard mode. All variants

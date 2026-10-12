@@ -28,6 +28,7 @@ jobs:
     outputs:
       tag: ${{ steps.version.outputs.tag }}
       exists: ${{ steps.version.outputs.exists }}
+      version: ${{ steps.version.outputs.version }}
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
@@ -44,6 +45,7 @@ jobs:
           fi
           tag="v$version-v1.1"
           echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
           if gh release view "$tag" > /dev/null 2>&1; then
             echo "exists=true" >> "$GITHUB_OUTPUT"
             echo "Release $tag exists: only its text will be updated."
@@ -69,6 +71,7 @@ jobs:
     env:
       GH_TOKEN: ${{ github.token }}
       TAG: ${{ needs.check.outputs.tag }}
+      VERSION: ${{ needs.check.outputs.version }}
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
@@ -87,6 +90,12 @@ jobs:
       - name: Create the release
         if: needs.check.outputs.exists == 'false'
         run: |
+          # This workflow only publishes pre-releases, so every firmware file
+          # gets a self-identifying _PreR_<version>-v1.1 suffix. Stable
+          # releases keep the plain names.
+          for f in firmware/*.uf2; do
+            mv "$f" "${f%.uf2}_PreR_${VERSION}-v1.1.uf2"
+          done
           ls -l firmware
           gh release create "$TAG" firmware/*.uf2 \
             --prerelease \

@@ -19,9 +19,11 @@ Download the compiled firmware from [this repository's releases](https://github.
 
 This version follows **upstream v1.5.2** and is published as a
 [prerelease](https://github.com/noodleboy91/uconsole-bb9900-keyboard-v1.1/releases).
-Sensor lift detection is **disabled for V1.1** — see below. The known-good
+Pre-release downloads carry a `_PreR_<version>-v1.1` suffix (for example
+`bb9900-v1.1-zmk_PreR_1.5.2-v1.1.uf2`); the
 [`v1.1-hardware-port.1`](https://github.com/noodleboy91/uconsole-bb9900-keyboard-v1.1/releases/tag/v1.1-hardware-port.1)
-release stays on **Latest** for recovery. The standard v1.5 build is
+release uses the plain names and stays on **Latest** for recovery. Sensor lift
+detection is **disabled for V1.1** — see below. The standard v1.5 build is
 hardware-tested and working; the middle-click and one-handed variants build but
 are not yet hardware-confirmed. See [V1.1 details](V1.1.md) and the
 [flashing section](#flashing).
@@ -255,6 +257,7 @@ and go to [Flashing](#flashing).
 | `bb9900-v1.1-zmk-one-handed.uf2` | The [one-handed layout](#one-handed-layout). |
 
 All three use V1.1 wiring. The separate L/R buttons remain left/right click.
+Pre-release builds append `_PreR_<version>-v1.1` to these names.
 
 Build your own only to change the keymap or settings.
 
@@ -336,7 +339,8 @@ examples below with your actual username and the uConsole's IP address or hostna
 ### 2. Copy the firmware from your other computer
 
 Download your chosen V1.1 UF2 from the [releases page](https://github.com/noodleboy91/uconsole-bb9900-keyboard-v1.1/releases)
-into your other computer's `Downloads` folder. In a terminal on **that computer**,
+into your other computer's `Downloads` folder. Use the exact name you downloaded;
+pre-release builds end with `_PreR_<version>-v1.1`. In a terminal on **that computer**,
 run:
 
 ```sh
