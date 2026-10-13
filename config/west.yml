@@ -12,8 +12,9 @@ manifest:
     - name: zmk
       remote: jhob101
       # Pin the source used to build and validate the V1.1 port.
-      # e88b786 = upstream 1.5.2: trackpad horizontal scroll direction fix.
-      revision: e88b78600df6de5c644ea73e5b972b923fd3f539
+      # 4434c42 = upstream 1.6.0: trackpad light key, one-shot cancel and
+      # clear on mouse use (the fork's main as of the 1.6.0 release).
+      revision: 4434c42f40cfff4b3f48478dc79a31157941320b
       import: app/west.yml
   self:
     path: config

@@ -17,17 +17,29 @@ Download the compiled firmware from [this repository's releases](https://github.
 - **`bb9900-v1.1-zmk-one-handed.uf2`**: trackpad left click; Y middle click,
   B right click, X scroll toggle, A F11.
 
-This version follows **upstream v1.5.2** and is the current release on
+The stable release is **upstream v1.5.2** (plain asset names) on
 [releases](https://github.com/noodleboy91/uconsole-bb9900-keyboard-v1.1/releases)
-(**Latest**). Pre-release builds append a `_PreR_<version>-v1.1` suffix to these
-names; this release uses the plain names. The earlier
+(**Latest**), with
 [`v1.1-hardware-port.1`](https://github.com/noodleboy91/uconsole-bb9900-keyboard-v1.1/releases/tag/v1.1-hardware-port.1)
-release is kept as a recovery build. Sensor lift detection is **disabled for
-V1.1** — see below. The standard and middle-click builds are hardware-tested and
-working; the one-handed variant builds but is not yet hardware-confirmed. See
-[V1.1 details](V1.1.md) and the [flashing section](#flashing).
+kept as a recovery build. A **v1.6.0 pre-release** is published for testing;
+pre-release builds append a `_PreR_<version>-v1.1` suffix to their asset names.
+Sensor lift detection is **disabled for V1.1** — see below. In the v1.5.2 stable
+builds the standard and middle-click variants are hardware-tested; the v1.6.0
+pre-release's trackpad-light and one-shot changes are not yet
+hardware-confirmed. See [V1.1 details](V1.1.md) and the
+[flashing section](#flashing).
 
 ### New in this update
+
+v1.6.0 pre-release (upstream 1.6.0):
+
+- **Trackpad light on/off with Fn + `/`**, remembered across restarts; the
+  light also goes out while the keyboard is locked.
+- **One-shot modifiers are easier to leave**: tap one again to cancel it, and
+  a mouse click or a scroll now uses it up, so a stray Shift no longer turns
+  every scroll sideways.
+
+Stable v1.5.2:
 
 - Scrolling follows finger speed, with overall scroll speed set to 60%, and
   horizontal scrolling now matches the direction of your finger (upstream 1.5.2
@@ -136,13 +148,15 @@ except that there is no D-pad pointer and no kitty key.
 
 ### One-shot modifiers
 
-Tap Shift, Ctrl, Alt or AltGr and it applies to the next key only. Holding
-works as normal. An unused tap expires after 60 seconds.
+Tap Shift, Ctrl, Alt or AltGr and it applies to the next key, click or scroll
+only. Tap it again to cancel. Holding works as normal. An unused tap expires
+after 60 seconds.
 
 ### Kitty key
 
 A is a one-shot Ctrl+Shift for the [kitty](https://sw.kovidgoyal.net/kitty/)
-terminal: tap A, then C, for Ctrl+Shift+C. Holding A works too. It covers:
+terminal: tap A, then C, for Ctrl+Shift+C. Tap A again to cancel. Holding A
+works too. It covers:
 
 - Letters `Q W E R T P S F G H J K L X C V B N M`
 - `Enter`, the arrow keys, `[ ] / - = , .`
@@ -165,6 +179,7 @@ Either Fn key works unless a row says otherwise.
 | Fn + I | Insert |
 | Fn + `,`, Fn + `.` | Screen brightness down, up |
 | Fn + Space | Key backlight on/off. It turns itself off after 30 seconds idle. |
+| Fn + `/` | Trackpad light on/off (remembered). |
 | Fn + Speaker | Mute |
 | Fn + Select | Print |
 | Fn + Start | Media pause |
@@ -200,9 +215,9 @@ cmake .. -DBUILD_SDL_JSTEST=OFF -DBUILD_SDL3_JSTEST=OFF && make
 ### Lock
 
 Fn + Esc locks the keyboard for carrying the uConsole around: keys, mouse
-buttons and trackpad are ignored and the backlight goes off. Release Fn, then
-Fn + Esc again to unlock. It does not blank the screen, and the keyboard always
-starts unlocked.
+buttons and trackpad are ignored and the key backlight and trackpad light go
+off. Release Fn, then Fn + Esc again to unlock. It does not blank the screen,
+and the keyboard always starts unlocked.
 
 ### Bootloader
 
@@ -233,7 +248,8 @@ Added here:
   is disabled in this V1.1 port while investigating a trackpad regression.
 - Gentler scrolling that follows your finger speed: slow movement scrolls
   slowly.
-- The trackpad light shows scroll mode.
+- The trackpad light shows scroll mode, and can be switched off with Fn + `/`.
+- One-shot modifiers cancel on a second tap and clear after a click or scroll.
 - Bluetooth off.
 - Fixes: Shift + Speaker no longer leaves Shift stuck, and the bootloader can
   no longer be entered by accident with `\`.
@@ -487,7 +503,8 @@ Common changes:
 | Pointer speed | `CONFIG_TRACKPAD_SPEEDMULTIPLIER_HORIZONTAL` and `_VERTICAL`, in percent |
 | Scroll speed | `CONFIG_TRACKPAD_SCROLL_SPEED`, in percent |
 | Lift detection | `CONFIG_INPUT_A320_OFN_ENGINE=0x00` on V1.1 (sensor programming disabled); upstream uses `0xA0`. Power-cycle after changing from `0xA0`. |
-| Trackpad light | `CONFIG_ZMK_TRACKPAD_SCROLL_LIGHT`: `n` leaves it alone |
+| Trackpad light on another key | `&tp_light TPL_TOG` toggles it; `TPL_ON` / `TPL_OFF` set it |
+| Trackpad light left alone entirely | `CONFIG_ZMK_TRACKPAD_SCROLL_LIGHT=n` |
 | Backlight auto-off delay | `CONFIG_ZMK_IDLE_TIMEOUT`, in milliseconds |
 | One-shot timeout | `release-after-ms` on `osm` and `osl` in the keymap |
 | Kitty key list | `kitty_layer` in the keymap |
@@ -513,11 +530,13 @@ under `#ifdef ONE_HANDED`, a worked example to copy for a layout of your own.
 
 ## Known limitations
 
-- **V1.1 hardware testing is partially completed.** The standard and
-  middle-click variants of the v1.5.2 release are hardware-tested and work as
-  expected (tracking, horizontal and vertical scrolling, clicks, and the Y/B
-  D-pad mouse); the one-handed variant is not yet hardware-confirmed. The
-  original upstream firmware was tested on V2.1.
+- **V1.1 hardware testing is partially completed.** The v1.5.2 stable release's
+  standard and middle-click variants are hardware-tested and work as expected
+  (tracking, horizontal and vertical scrolling, clicks, and the Y/B D-pad
+  mouse); the one-handed variant is not yet hardware-confirmed. The v1.6.0
+  pre-release (trackpad-light key, one-shot cancel/clear-on-mouse) builds for
+  all three variants but is not yet hardware-confirmed. The original upstream
+  firmware was tested on V2.1.
 - **DO NOT ENABLE SENSOR LIFT DETECTION ON V1.1.** Setting `CONFIG_INPUT_A320_OFN_ENGINE=0xA0`
   is incompatible with V1.1 hardware and causes trackpad malfunctions including
   missed movements, pointer jumps, and unresponsive trackpad. This has been tested

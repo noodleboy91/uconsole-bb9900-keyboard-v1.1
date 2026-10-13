@@ -13,6 +13,7 @@
 #include <dt-bindings/zmk/ext_power.h>
 #include <dt-bindings/zmk/modifiers.h>
 #include <dt-bindings/zmk/joystick.h>
+#include <dt-bindings/zmk/trackpad.h>
 
 #define SYM 1
 #define UPPER 2
@@ -143,6 +144,9 @@
     // oneshot(altgr) and oneshot(kittymod)). Tap = applies to the next key
     // only; hold = behaves as a normal modifier / momentary layer.
     // keyd has no one-shot timeout; ZMK requires one, so it is set long.
+    // Tapping an armed one-shot again cancels it (cancel-on-retap), and a
+    // mouse click or a trackpad scroll uses it up as a key would
+    // (release-on-mouse). Both are additions in the ZMK fork.
     behaviors {
         osm: oneshot_mod {
             compatible = "zmk,behavior-sticky-key";
@@ -151,6 +155,8 @@
             bindings = <&kp>;
             quick-release;
             ignore-modifiers;
+            cancel-on-retap;
+            release-on-mouse;
         };
         osl: oneshot_layer {
             compatible = "zmk,behavior-sticky-key";
@@ -159,6 +165,8 @@
             bindings = <&mo>;
             quick-release;
             ignore-modifiers;
+            cancel-on-retap;
+            release-on-mouse;
         };
     };
 
@@ -222,9 +230,9 @@
     };
 
     // Fn+Esc when unlocked (lock_kb): switch the trackpad off, hold the key
-    // backlight off, then lock the keyboard.
-    // Fn+Esc again (unlock_kb, bound in unlock_layer): trackpad back on, the
-    // backlight back to whatever it was, and unlock.
+    // backlight and the trackpad light off, then lock the keyboard.
+    // Fn+Esc again (unlock_kb, bound in unlock_layer): trackpad back on, both
+    // lights back to whatever they were, and unlock.
     // Nothing is sent to the host either way. An earlier version also sent
     // the screen lock key, but no desktop binding for it proved reliable on
     // the uConsole, so the lock leaves the screen alone.
@@ -237,16 +245,26 @@
             #binding-cells = <1>;
         };
     };
+
+    // The trackpad light: Fn + / switches it off or on, and the choice is
+    // saved. The lock macros hold it off while locked without touching that
+    // choice. zmk,behavior-trackpad-light lives in the ZMK fork.
+    behaviors {
+        tp_light: tp_light {
+            compatible = "zmk,behavior-trackpad-light";
+            #binding-cells = <1>;
+        };
+    };
     macros {
         lock_kb: lock_kb {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&macro_tap &tp_enable 0 &bl BL_SUSPEND &tog LOCK>;
+            bindings = <&macro_tap &tp_enable 0 &bl BL_SUSPEND &tp_light TPL_SUSPEND &tog LOCK>;
         };
         unlock_kb: unlock_kb {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&macro_tap &tp_enable 1 &bl BL_RESUME &tog LOCK>;
+            bindings = <&macro_tap &tp_enable 1 &bl BL_RESUME &tp_light TPL_RESUME &tog LOCK>;
         };
     };
 
@@ -282,7 +300,7 @@
             bindings = <
         &kp LEFT                      &mkp LCLK         &mkp TRACKPAD_PRESS  &kp Y   &kp X
 &kp K_VOL_UP   &kp K_VOL_DN &kp RIGHT               &mkp RCLK                       &kp  B      &kp A
-&lock_kb  &kp C_AC_PRINT &kp C_PAUSE  &kp C_MUTE &none   &none   &none   &kp F11    &kp F12   &kp BACKSLASH
+&lock_kb  &kp C_AC_PRINT &kp C_PAUSE  &kp C_MUTE &none   &none   &tp_light TPL_TOG   &kp F11    &kp F12   &kp BACKSLASH
 &none    &kp F1         &kp F2        &kp F3     &kp F4     &kp F5     &kp F6     &kp F7     &kp F8    &kp F9  &kp F10 &kp DEL
 &kp CAPSLOCK    &kp Q          &kp W         &kp E      &kp R      &kp T      &kp Y      &kp PAGE_UP      &kp INSERT     &kp O   &kp P
 &none    &kp A          &kp S         &kp D      &kp F      &tog GAME  &kp HOME      &kp END      &kp PAGE_DOWN     &kp L   &none &none         
@@ -298,7 +316,7 @@
             bindings = <
         &kp LEFT                      &mkp LCLK         &mkp TRACKPAD_PRESS  &kp Y   &kp X
 &kp UP   &kp DOWN &kp RIGHT               &mkp RCLK                       &kp  B      &kp A
-&lock_kb  &kp C_AC_PRINT &kp C_PAUSE  &kp C_MUTE &none   &none   &none   &kp F11    &kp F12   &kp BACKSLASH
+&lock_kb  &kp C_AC_PRINT &kp C_PAUSE  &kp C_MUTE &none   &none   &tp_light TPL_TOG   &kp F11    &kp F12   &kp BACKSLASH
 &none     &kp F1         &kp F2        &kp F3     &kp F4     &kp F5     &kp F6     &kp F7     &kp F8    &kp F9  &kp F10 &kp DEL
 &kp CAPSLOCK    &kp Q          &kp W         &kp E      &kp R      &kp T      &kp Y      &kp PAGE_UP      &kp INSERT     &kp O   &kp P
 &none    &kp A          &kp S         &kp D      &kp F      &tog GAME  &kp HOME      &kp END      &kp PAGE_DOWN     &kp L   &none &none         
