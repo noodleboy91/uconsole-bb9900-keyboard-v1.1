@@ -15,12 +15,12 @@ One-handed also uses Y for middle click, X to toggle scrolling, and A for F11.
 It replaces the D-pad mouse and kitty shortcut in keyboard mode. All variants
 retain the separate L/R mouse buttons, hold-Select scrolling and Fn+G gamepad.
 
-**This is a pre-release**, so the downloaded files carry a `_PreR_1.6.0-v1.1`
-suffix (for example `bb9900-v1.1-zmk_PreR_1.6.0-v1.1.uf2`). The stable
+Pre-release builds get a `_PreR_<version>-v1.1` suffix on these names; this
+stable release uses the plain names above. The earlier
 [`v1.5.2-v1.1`](https://github.com/noodleboy91/uconsole-bb9900-keyboard-v1.1/releases/tag/v1.5.2-v1.1)
-release uses the plain names, and
+and
 [`v1.1-hardware-port.1`](https://github.com/noodleboy91/uconsole-bb9900-keyboard-v1.1/releases/tag/v1.1-hardware-port.1)
-is kept as a recovery build.
+releases are kept as recovery builds.
 
 ## New in 1.6.0
 
@@ -30,17 +30,18 @@ is kept as a recovery build.
   mouse click or a scroll now uses it up, as a key press does, so a stray Shift
   no longer turns every scroll sideways.
 
-Carried over from 1.5.x: scrolling follows finger speed at 60%; horizontal
-scrolling goes the right way; pointer speed 120%; sensor lift detection is
-disabled for V1.1; the trackpad light shows scroll mode; B tap is a mouse click;
-optional scroll toggle and one-handed layout; upstream pointer-overflow fix and
-sensor diagnostics.
+Plus the 1.5.x features: scrolling follows finger speed at 60%; horizontal
+scrolling goes the right way; pointer speed 120%; sensor lift detection
+disabled for V1.1; the trackpad light shows scroll mode; B tap is a mouse
+click; optional scroll toggle and one-handed layout; upstream pointer-overflow
+fix and sensor diagnostics.
 
 ## Validation and flashing
 
-All three variants build cleanly against the pinned upstream 1.6.0 source. This
-pre-release is **not yet hardware-confirmed**; the stable `v1.5.2-v1.1` release's
-standard and middle-click variants are hardware-tested and work as expected.
+All three variants build cleanly, and the standard build is hardware-tested with
+1.6.0, including the trackpad-light and one-shot changes. The middle-click and
+one-handed variants share the same keymap but have not been re-flashed with
+1.6.0.
 
 If upgrading from the initial v1.5.0 build, **fully shut down and power back on
 after flashing** to clear the sensor's previous volatile setting.

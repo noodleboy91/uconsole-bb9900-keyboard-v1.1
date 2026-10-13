@@ -17,21 +17,23 @@ Download the compiled firmware from [this repository's releases](https://github.
 - **`bb9900-v1.1-zmk-one-handed.uf2`**: trackpad left click; Y middle click,
   B right click, X scroll toggle, A F11.
 
-The stable release is **upstream v1.5.2** (plain asset names) on
+This version follows **upstream v1.6.0** and is the current release on
 [releases](https://github.com/noodleboy91/uconsole-bb9900-keyboard-v1.1/releases)
-(**Latest**), with
+(**Latest**). Pre-release builds append a `_PreR_<version>-v1.1` suffix to these
+names; this release uses the plain names. The earlier
+[`v1.5.2-v1.1`](https://github.com/noodleboy91/uconsole-bb9900-keyboard-v1.1/releases/tag/v1.5.2-v1.1)
+and
 [`v1.1-hardware-port.1`](https://github.com/noodleboy91/uconsole-bb9900-keyboard-v1.1/releases/tag/v1.1-hardware-port.1)
-kept as a recovery build. A **v1.6.0 pre-release** is published for testing;
-pre-release builds append a `_PreR_<version>-v1.1` suffix to their asset names.
-Sensor lift detection is **disabled for V1.1** — see below. In the v1.5.2 stable
-builds the standard and middle-click variants are hardware-tested; the v1.6.0
-pre-release's trackpad-light and one-shot changes are not yet
-hardware-confirmed. See [V1.1 details](V1.1.md) and the
+releases are kept as recovery builds. Sensor lift detection is **disabled for
+V1.1** — see below. The standard build is hardware-tested with 1.6.0, including
+the new trackpad-light and one-shot behaviour; the middle-click and one-handed
+variants build cleanly and share the same keymap but have not been re-flashed
+with 1.6.0. See [V1.1 details](V1.1.md) and the
 [flashing section](#flashing).
 
 ### New in this update
 
-v1.6.0 pre-release (upstream 1.6.0):
+Upstream 1.6.0:
 
 - **Trackpad light on/off with Fn + `/`**, remembered across restarts; the
   light also goes out while the keyboard is locked.
@@ -39,7 +41,7 @@ v1.6.0 pre-release (upstream 1.6.0):
   a mouse click or a scroll now uses it up, so a stray Shift no longer turns
   every scroll sideways.
 
-Stable v1.5.2:
+Earlier 1.5.2:
 
 - Scrolling follows finger speed, with overall scroll speed set to 60%, and
   horizontal scrolling now matches the direction of your finger (upstream 1.5.2
@@ -530,13 +532,13 @@ under `#ifdef ONE_HANDED`, a worked example to copy for a layout of your own.
 
 ## Known limitations
 
-- **V1.1 hardware testing is partially completed.** The v1.5.2 stable release's
-  standard and middle-click variants are hardware-tested and work as expected
-  (tracking, horizontal and vertical scrolling, clicks, and the Y/B D-pad
-  mouse); the one-handed variant is not yet hardware-confirmed. The v1.6.0
-  pre-release (trackpad-light key, one-shot cancel/clear-on-mouse) builds for
-  all three variants but is not yet hardware-confirmed. The original upstream
-  firmware was tested on V2.1.
+- **V1.1 hardware testing is partially completed.** The 1.6.0 standard build is
+  hardware-tested and works as expected, including the new trackpad-light key
+  (with its state persisting across power cycles, and off while locked) and the
+  one-shot cancel-on-retap / clear-on-mouse behaviour. The middle-click and
+  one-handed variants build cleanly and share the same keymap but have not been
+  re-flashed with 1.6.0; the middle-click variant was hardware-tested on 1.5.2.
+  The original upstream firmware was tested on V2.1.
 - **DO NOT ENABLE SENSOR LIFT DETECTION ON V1.1.** Setting `CONFIG_INPUT_A320_OFN_ENGINE=0xA0`
   is incompatible with V1.1 hardware and causes trackpad malfunctions including
   missed movements, pointer jumps, and unresponsive trackpad. This has been tested
